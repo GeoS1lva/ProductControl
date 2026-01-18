@@ -15,6 +15,8 @@ namespace Source.Controllers
     {
         [HttpPost("login")]
         [AllowAnonymous]
+        [EndpointSummary("Autenticar Usuário")]
+        [EndpointDescription("Valida as credenciais (username/password) e retorna um Token JWT para acesso aos recursos protegidos.")]
         public async Task<IActionResult> Login([FromBody] RequestLogin request)
         {
             var result = await usersAppService.LoginAsync(request);
@@ -27,6 +29,8 @@ namespace Source.Controllers
 
         [HttpPost("logout")]
         [Authorize]
+        [EndpointSummary("Encerrar Sessão")]
+        [EndpointDescription("Invalida o token atual adicionando o JTI à Blacklist no banco de dados.")]
         public async Task<IActionResult> Logout()
         {
             var jti = User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Jti)?.Value;

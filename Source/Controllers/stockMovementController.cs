@@ -11,6 +11,8 @@ namespace Source.Controllers
     {
         [HttpGet]
         [Authorize(Roles = "administrator")]
+        [EndpointSummary("Histórico Global")]
+        [EndpointDescription("Retorna todas as movimentações de estoque realizadas no sistema.")]
         public async Task<IActionResult> GetAll()
         {
             var result = await stockMovementAppService.GetAllStockMovementsAsync();
@@ -23,6 +25,7 @@ namespace Source.Controllers
 
         [HttpGet("product/{productId}")]
         [Authorize(Roles = "administrator")]
+        [EndpointSummary("Movimentações por Produto")]
         public async Task<IActionResult> GetByProductId([FromRoute] Guid productId)
         {
             var result = await stockMovementAppService.GetByProductStockMovementsAsync(productId);
@@ -35,6 +38,7 @@ namespace Source.Controllers
 
         [HttpGet("user/{userId}")]
         [Authorize(Roles = "administrator")]
+        [EndpointSummary("Movimentações por User")]
         public async Task<IActionResult> GetByUserId([FromRoute] Guid userId)
         {
             var result = await stockMovementAppService.GetByUserStockMovementsAsync(userId);
