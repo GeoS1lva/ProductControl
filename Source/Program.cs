@@ -120,7 +120,15 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    await InitializeUser.SeedAdminUser(scope.ServiceProvider);
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<PostgreDbContext>();
+
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        await context.Database.MigrateAsync();
+    }
+
+    await InitializeUser.SeedAdminUser(services);
 }
 
 if (app.Environment.IsDevelopment())
