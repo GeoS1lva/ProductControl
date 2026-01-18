@@ -4,14 +4,25 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>19d15f22-cc34-499a-a5ff-6726bf7d2d71</UserSecretsId>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\ProductControl.Application\ProductControl.Application.csproj" />
+    <ProjectReference Include="..\ProductControl.Domain\ProductControl.Domain.csproj" />
+    <ProjectReference Include="..\ProductControl.Infrastructure\ProductControl.Infrastructure.csproj" />
+    <ProjectReference Include="..\ProductControl.Tests\ProductControl.Tests.csproj" />
   </ItemGroup>
 
 </Project>

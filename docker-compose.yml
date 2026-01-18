@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Admin!123
+      POSTGRES_DB: product_control_db
+    ports:
+      - "5435:5432"
+    volumes:
+      - pc_data:/var/lib/postgresql 
+    restart: always
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: product_control_api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=product_control_db;Username=admin;Password=Admin!123;Include Error Detail=true
+      - Jwt__Key=PELpGMwWxolJYSAbalVQeWDCQEbWYDLV
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_web
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+volumes:
+  pc_data:

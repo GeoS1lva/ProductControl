@@ -1,9 +1,4 @@
 ﻿using ProductControl.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProductControl.Domain.Entities
 {
@@ -28,10 +23,10 @@ namespace ProductControl.Domain.Entities
             State = state;
             Number = number;
             Complement = complement;
-            CreatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
         }
 
-        public ResultPattern<Address> Create(string cep, string street, string neighborhood, string city, string state, string number, string complement)
+        public static ResultPattern<Address> Create(string cep, string street, string neighborhood, string city, string state, string number, string complement)
         {
             if (string.IsNullOrWhiteSpace(cep))
                 return ResultPattern<Address>.Failure("CEP Inválido");
@@ -51,9 +46,7 @@ namespace ProductControl.Domain.Entities
             if (string.IsNullOrWhiteSpace(number))
                 return ResultPattern<Address>.Failure("Número Inválido");
 
-            var address = new Address(cep, street, neighborhood, city, state, number, complement);
-
-            return ResultPattern<Address>.Success(address);
+            return ResultPattern<Address>.Success(new Address(cep, street, neighborhood, city, state, number, complement));
         }
 
         private Address() { }
